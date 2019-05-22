@@ -1,0 +1,42 @@
+function _workplace () {
+	local curcontext="$curcontext" state line expl suf ret=0
+	typeset -A opt_args
+	_arguments \
+		'1: :->commands' \
+		'*: :->nope'
+
+	case $state in
+		commands)
+			_arguments '1:commands:((
+			{g,goto}:\\"navigate workplace selected dir"
+			{p,project}:\\"project related commands"
+			{w,workplace}:\\"workplace related commands"
+			))'
+			;;
+		*)
+			case $words[2] in
+				g|goto)
+					wp_path="$HOME/workplace"
+					for ((i = 3; i < ${#words}; i++)) do
+						wp_path="${wp_path}/${words[$i]}"
+					done
+
+					sub_dir_list=(`basename -a $(ls -d $wp_path/*(/))`)
+					compadd "$@" $sub_dir_list
+					;;
+
+				p|project)
+					_arguments '2:project:((
+						{t,top}:\\"go to the top folder of project. (The top folder is the first folder with version tracker or IDE folder)"
+                        {b,build}:\\" try run make command or ./s_build.sh file"
+					))'
+					;;
+
+				*)
+					_arguments '2:none:((
+						TBD:\\"Not implemented case!"
+					))'
+					;;
+			esac
+    esac
+}
