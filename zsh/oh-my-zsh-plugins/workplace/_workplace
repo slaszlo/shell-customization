@@ -1,4 +1,12 @@
 function _workplace () {
+	
+	if [ -z $S_WORKPLACE_PATH ]; then
+		echo "Error: S_WROKPLACE_PATH is empty!"
+		return 1
+	fi
+
+	local wp_path=$S_WORKPLACE_PATH
+	
 	local curcontext="$curcontext" state line expl suf ret=0
 	typeset -A opt_args
 	_arguments \
@@ -16,7 +24,6 @@ function _workplace () {
 		*)
 			case $words[2] in
 				g|goto)
-					wp_path="$HOME/workplace"
 					for ((i = 3; i < ${#words}; i++)) do
 						wp_path="${wp_path}/${words[$i]}"
 					done

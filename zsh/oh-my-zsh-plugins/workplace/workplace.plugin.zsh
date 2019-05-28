@@ -1,4 +1,10 @@
-local my_workplace="$HOME/workplace/"
+
+if [ -z $S_WORKPLACE_PATH ]; then
+	echo "Error: S_WROKPLACE_PATH is empty!"
+	return 1
+fi
+
+local my_workplace=$S_WORKPLACE_PATH
 
 local top_dir_indicators=(".git" ".vscode" ".project" ".cproject")
 
