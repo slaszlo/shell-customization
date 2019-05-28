@@ -35,7 +35,7 @@ function _workplace () {
 				p|project)
 					_arguments '2:project:((
 						{t,top}:\\"go to the top folder of project. (The top folder is the first folder with version tracker or IDE folder)"
-                        {b,build}:\\" try run make command or ./s_build.sh file"
+						{b,build}:\\" try run make command or ./s_build.sh file"
 					))'
 					;;
 
