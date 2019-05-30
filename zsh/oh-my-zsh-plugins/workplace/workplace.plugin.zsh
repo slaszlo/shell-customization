@@ -54,10 +54,21 @@ workplace ()
 					;;
 
 				build|b)
+
+					if [[ -n $TMUX ]] then
+						local window_name=`tmux display-message -p '#W'`
+						local window_id=`tmux display-message -p '#I'`
+						tmux rename-window "building..."
+					fi
+
 					if [[ -e Makefile ]] then
 						make
 					elif [[ -x s_build.sh ]] then
 						./s_build.sh
+					fi
+
+					if [[ -n $TMUX ]] then
+						tmux rename-window -t $window_id $window_name
 					fi
 					;;
 				*)
@@ -71,7 +82,7 @@ workplace ()
 	esac
 }
 
-#compdef: 
+#compdef:
 source "$(dirname  $0)/_workplace"
 
 alias wp="workplace"
